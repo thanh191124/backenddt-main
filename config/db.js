@@ -5,7 +5,7 @@ const dbConfig = {
     host: 'localhost',
     user: 'root', // Thay thế bằng username của bạn
     password: '', // Thay thế bằng password của bạn
-    port: '3307',
+    port: '3306',
     database: 'webbandientu' // Thay thế bằng tên database bạn muốn kết nối
 };
 
