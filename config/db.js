@@ -10,7 +10,10 @@ const dbConfig = {
 };
 
 // Tạo kết nối
-const connection = mysql.createConnection(dbConfig);
+// const connection = mysql.createConnection(dbConfig);
+
+// Tạo kết nối sử dụng DATABASE_URL từ biến môi trường
+const connection = mysql.createConnection(process.env.DATABASE_URL);
 
 // Kết nối đến cơ sở dữ liệu
 connection.connect((err) => {
