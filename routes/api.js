@@ -93,6 +93,35 @@ router.post('/bank/add', checkAdmin, BankController.addAccount); // Thêm tài k
 router.post('/bank/update/:id', checkAdmin, BankController.updateAccount); // Cập nhật tài khoản (admin)
 router.post('/bank/delete/:id', checkAdmin, BankController.deleteAccount); // Xóa tài khoản (admin)
 
+// Endpoint mới: Trả về toàn bộ dữ liệu
+router.get('/all-data', async (req, res) => {
+  try {
+    // Gọi các controller để lấy dữ liệu từ các bảng
+    const categories = await categoryController.getAllCategories(req, res); // Lấy tất cả categories
+    const products = await productsController.getAllProducts(req, res); // Lấy tất cả sản phẩm
+    const users = await userController.getAllUsers(req, res); // Lấy tất cả người dùng
+    const vouchers = await VoucherController.getAllVouchers(req, res); // Lấy tất cả vouchers
+    const reviews = await ReviewsController.getAllReviews(req, res); // Lấy tất cả đánh giá
+    const provinces = await provinceController.getAllProvince(req, res); // Lấy tất cả tỉnh/thành phố
+    const orders = await OrdersController.getAllOrders(req, res); // Lấy tất cả đơn hàng
+    const banks = await BankController.getAllAccounts(req, res); // Lấy tất cả tài khoản ngân hàng
+
+    // Trả về một object chứa tất cả dữ liệu
+    res.json({
+      categories,
+      products,
+      users,
+      vouchers,
+      reviews,
+      provinces,
+      orders,
+      banks,
+    });
+  } catch (error) {
+    console.error('Error fetching all data:', error);
+    res.status(500).json({ error: 'Error fetching all data' });
+  }
+});
 
 
 module.exports = router;
