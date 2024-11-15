@@ -1,5 +1,5 @@
 var createError = require('http-errors');
-var express = require('express');
+const  express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -9,8 +9,12 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
 
-var app = express();
-app.use(cors());
+const app = express();
+app.use(cors({
+  origin: 'https://client-i7gu.onrender.com', // Cho phép frontend kết nối
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức HTTP được phép
+  credentials: true // Cho phép gửi cookie hoặc thông tin xác thực
+}));
 
 // Thêm đoạn mã này để phục vụ tệp từ thư mục uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -43,5 +47,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
