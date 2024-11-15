@@ -96,17 +96,28 @@ router.post('/bank/delete/:id', checkAdmin, BankController.deleteAccount); // X�
 // Endpoint mới: Trả về toàn bộ dữ liệu
 router.get('/all-data', async (req, res) => {
   try {
-    // Gọi các controller để lấy dữ liệu từ các bảng
-    const categories = await categoryController.getAllCategories(req, res); // Lấy tất cả categories
-    const products = await productsController.getAllProducts(req, res); // Lấy tất cả sản phẩm
-    const users = await userController.getAllUsers(req, res); // Lấy tất cả người dùng
-    const vouchers = await VoucherController.getAllVouchers(req, res); // Lấy tất cả vouchers
-    const reviews = await ReviewsController.getAllReviews(req, res); // Lấy tất cả đánh giá
-    const provinces = await provinceController.getAllProvince(req, res); // Lấy tất cả tỉnh/thành phố
-    const orders = await OrdersController.getAllOrders(req, res); // Lấy tất cả đơn hàng
-    const banks = await BankController.getAllAccounts(req, res); // Lấy tất cả tài khoản ngân hàng
+    const categories = await categoryController.getAllCategories(req, res);
+    const products = await productsController.getAllProducts(req, res);
+    const users = await userController.getAllUsers(req, res);
+    const vouchers = await VoucherController.getAllVouchers(req, res);
+    const reviews = await ReviewsController.getAllReviews(req, res);
+    const provinces = await provinceController.getAllProvince(req, res);
+    const address = await provinceController.getAllAddresses(req, res);
+    const orders = await OrdersController.getAllOrders(req, res);
+    const banks = await BankController.getAllAccounts(req, res);
 
-    // Trả về một object chứa tất cả dữ liệu
+    console.log({
+      categories,
+      products,
+      users,
+      vouchers,
+      reviews,
+      provinces,
+      address,
+      orders,
+      banks,
+    });
+
     res.json({
       categories,
       products,
@@ -114,6 +125,7 @@ router.get('/all-data', async (req, res) => {
       vouchers,
       reviews,
       provinces,
+      address,
       orders,
       banks,
     });
@@ -122,6 +134,7 @@ router.get('/all-data', async (req, res) => {
     res.status(500).json({ error: 'Error fetching all data' });
   }
 });
+
 
 
 module.exports = router;
