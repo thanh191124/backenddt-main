@@ -96,27 +96,17 @@ router.post('/bank/delete/:id', checkAdmin, BankController.deleteAccount); // X�
 // Endpoint mới: Trả về toàn bộ dữ liệu
 router.get('/all-data', async (req, res) => {
   try {
-    const categories = await categoryController.getAllCategories(req, res);
-    const products = await productsController.getAllProducts(req, res);
-    const users = await userController.getAllUsers(req, res);
-    const vouchers = await VoucherController.getAllVouchers(req, res);
-    const reviews = await ReviewsController.getAllReviews(req, res);
-    const provinces = await provinceController.getAllProvince(req, res);
-    const address = await provinceController.getAllAddresses(req, res);
-    const orders = await OrdersController.getAllOrders(req, res);
-    const banks = await BankController.getAllAccounts(req, res);
-
-    console.log({
-      categories,
-      products,
-      users,
-      vouchers,
-      reviews,
-      provinces,
-      address,
-      orders,
-      banks,
-    });
+    const [categories, products, users, vouchers, reviews, provinces, address, orders, banks] = await Promise.all([
+      categoryController.getAllCategories(req, res),
+      productsController.getAllProducts(req, res),
+      userController.getAllUsers(req, res),
+      VoucherController.getAllVouchers(req, res),
+      ReviewsController.getAllReviews(req, res),
+      provinceController.getAllProvince(req, res),
+      addressController.getAllAddresses(req, res),
+      OrdersController.getAllOrders(req, res),
+      BankController.getAllAccounts(req, res),
+    ]);
 
     res.json({
       categories,
@@ -130,11 +120,10 @@ router.get('/all-data', async (req, res) => {
       banks,
     });
   } catch (error) {
-    console.error('Error fetching all data:', error);
-    res.status(500).json({ error: 'Error fetching all data' });
+    console.error('Lỗi khi lấy dữ liệu:', error);
+    res.status(500).json({ error: 'Lỗi khi lấy dữ liệu' });
   }
 });
-
 
 
 module.exports = router;
