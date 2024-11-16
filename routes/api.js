@@ -98,15 +98,15 @@ router.get('/all-data', async (req, res) => {
   try {
     // Sử dụng Promise.all để lấy tất cả dữ liệu từ các controller cùng lúc
     const results = await Promise.all([
-      categoryController.getAllCategories(req, res), // Lấy danh mục
-      productsController.getAllProducts(req, res), // Lấy sản phẩm
-      userController.getAllUsers(req, res), // Lấy người dùng
-      VoucherController.getAllVouchers(req, res), // Lấy voucher
-      ReviewsController.getAllReviews(req, res), // Lấy đánh giá
-      provinceController.getAllProvince(req, res), // Lấy tỉnh
-      addressController.getAllAddresses(req, res), // Lấy địa chỉ
-      OrdersController.getAllOrders(req, res), // Lấy đơn hàng
-      BankController.getAllAccounts(req, res), // Lấy tài khoản ngân hàng
+      categoryController.getAllCategories(req), // Lấy danh mục
+      productsController.getAllProducts(req), // Lấy sản phẩm
+      userController.getAllUsers(req), // Lấy người dùng
+      VoucherController.getAllVouchers(req), // Lấy voucher
+      ReviewsController.getAllReviews(req), // Lấy đánh giá
+      provinceController.getAllProvince(req), // Lấy tỉnh
+      addressController.getAllAddresses(req), // Lấy địa chỉ
+      OrdersController.getAllOrders(req), // Lấy đơn hàng
+      BankController.getAllAccounts(req), // Lấy tài khoản ngân hàng
     ]);
 
     // Sau khi tất cả Promise hoàn thành, gửi dữ liệu cho client
@@ -126,6 +126,7 @@ router.get('/all-data', async (req, res) => {
     res.status(500).json({ error: 'Lỗi khi lấy tất cả dữ liệu' });
   }
 });
+
 
 
 module.exports = router;
