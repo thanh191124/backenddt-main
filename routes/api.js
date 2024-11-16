@@ -96,32 +96,34 @@ router.post('/bank/delete/:id', checkAdmin, BankController.deleteAccount); // X�
 // Endpoint mới: Trả về toàn bộ dữ liệu
 router.get('/all-data', async (req, res) => {
   try {
-    const [categories, products, users, vouchers, reviews, provinces, address, orders, banks] = await Promise.all([
-      categoryController.getAllCategories(req, res),
-      productsController.getAllProducts(req, res),
-      userController.getAllUsers(req, res),
-      VoucherController.getAllVouchers(req, res),
-      ReviewsController.getAllReviews(req, res),
-      provinceController.getAllProvince(req, res),
-      addressController.getAllAddresses(req, res),
-      OrdersController.getAllOrders(req, res),
-      BankController.getAllAccounts(req, res),
+    // Sử dụng Promise.all để lấy tất cả dữ liệu từ các controller cùng lúc
+    const results = await Promise.all([
+      categoryController.getAllCategories(req, res), // Lấy danh mục
+      productsController.getAllProducts(req, res), // Lấy sản phẩm
+      userController.getAllUsers(req, res), // Lấy người dùng
+      VoucherController.getAllVouchers(req, res), // Lấy voucher
+      ReviewsController.getAllReviews(req, res), // Lấy đánh giá
+      provinceController.getAllProvince(req, res), // Lấy tỉnh
+      addressController.getAllAddresses(req, res), // Lấy địa chỉ
+      OrdersController.getAllOrders(req, res), // Lấy đơn hàng
+      BankController.getAllAccounts(req, res), // Lấy tài khoản ngân hàng
     ]);
 
+    // Sau khi tất cả Promise hoàn thành, gửi dữ liệu cho client
     res.json({
-      categories,
-      products,
-      users,
-      vouchers,
-      reviews,
-      provinces,
-      address,
-      orders,
-      banks,
+      categories: results[0],
+      products: results[1],
+      users: results[2],
+      vouchers: results[3],
+      reviews: results[4],
+      provinces: results[5],
+      address: results[6],
+      orders: results[7],
+      banks: results[8],
     });
   } catch (error) {
-    console.error('Lỗi khi lấy dữ liệu:', error);
-    res.status(500).json({ error: 'Lỗi khi lấy dữ liệu' });
+    console.error('Lỗi khi lấy tất cả dữ liệu:', error);
+    res.status(500).json({ error: 'Lỗi khi lấy tất cả dữ liệu' });
   }
 });
 
