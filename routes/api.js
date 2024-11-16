@@ -96,17 +96,61 @@ router.post('/bank/delete/:id', checkAdmin, BankController.deleteAccount); // X�
 // Endpoint mới: Trả về toàn bộ dữ liệu
 router.get('/all-data', async (req, res) => {
   try {
-    // Sử dụng Promise.all để lấy tất cả dữ liệu từ các controller cùng lúc
     const results = await Promise.all([
-      categoryController.getAllCategories(req), // Lấy danh mục
-      productsController.getAllProducts(req), // Lấy sản phẩm
-      userController.getAllUsers(req), // Lấy người dùng
-      VoucherController.getAllVouchers(req), // Lấy voucher
-      ReviewsController.getAllReviews(req), // Lấy đánh giá
-      provinceController.getAllProvince(req), // Lấy tỉnh
-      addressController.getAllAddresses(req), // Lấy địa chỉ
-      OrdersController.getAllOrders(req), // Lấy đơn hàng
-      BankController.getAllAccounts(req), // Lấy tài khoản ngân hàng
+      new Promise((resolve, reject) => {
+        categoryController.getAllCategories(req, res, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      }), // Lấy danh mục
+      new Promise((resolve, reject) => {
+        productsController.getAllProducts(req, res, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      }), // Lấy sản phẩm
+      new Promise((resolve, reject) => {
+        userController.getAllUsers(req, res, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      }), // Lấy người dùng
+      new Promise((resolve, reject) => {
+        VoucherController.getAllVouchers(req, res, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      }), // Lấy voucher
+      new Promise((resolve, reject) => {
+        ReviewsController.getAllReviews(req, res, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      }), // Lấy đánh giá
+      new Promise((resolve, reject) => {
+        provinceController.getAllProvince(req, res, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      }), // Lấy tỉnh
+      new Promise((resolve, reject) => {
+        addressController.getAllAddresses(req, res, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      }), // Lấy địa chỉ
+      new Promise((resolve, reject) => {
+        OrdersController.getAllOrders(req, res, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      }), // Lấy đơn hàng
+      new Promise((resolve, reject) => {
+        BankController.getAllAccounts(req, res, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      }), // Lấy tài khoản ngân hàng
     ]);
 
     // Sau khi tất cả Promise hoàn thành, gửi dữ liệu cho client
